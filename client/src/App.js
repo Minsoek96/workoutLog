@@ -1,4 +1,7 @@
 import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Edit from "./pages/Edit";
 
 //유저가 몇 개를 추가할지 모를 종목 개수를 임의로 생성하는 목적
 const getList = (random) => Array(random)
@@ -23,11 +26,14 @@ const getList = (random) => Array(random)
 
 const App = () => {
   return (
+    <BrowserRouter>
     <div className="App">
-      {console.log(dummyData.map(a => a))}
-      <div className="Volume"></div>
-      <h5>안녕하세요</h5>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="edit/:id" element={<Edit/>}/>
+      </Routes>
     </div>
+    </BrowserRouter>
   );
 }
 
