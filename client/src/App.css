@@ -1,0 +1,9 @@
+.App {
+  text-align: center;
+}
+
+.Volume {
+  display: flex;
+  flex-direction: column;
+  height: 1000px;
+}
