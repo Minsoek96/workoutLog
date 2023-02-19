@@ -2,11 +2,10 @@ import React from "react";
 import DoughnutChart from "../components/DoughnutChart";
 import styled from "styled-components";
 
-//.임의의 목표볼륨을 설정 
+//.임의의 목표볼륨을 설정
 const targetVolume = 70000;
 
 const Home = ({ data }) => {
-
   //데이터에서 볼륨을 계산하고 퍼센트값을 반환
   const getvolume = data.map((a) =>
     a.workout_list
@@ -21,9 +20,23 @@ const Home = ({ data }) => {
   return (
     <div className="Home">
       <Doughnut>
-        <DoughnutChart size={"100"} percent={getPercent(getvolume,targetVolume)}/>
-        <DoughnutChart size={"100"} percent={getPercent(getvolume,targetVolume)}/>
-        <DoughnutChart size={"100"} percent={getPercent(getvolume,targetVolume)}/>
+        <DoughnutChart
+          size={"100"}
+          percent={getPercent(getvolume, targetVolume)}
+          text={"목표타겟"}
+        />
+        <DoughnutChart
+          size={"100"}
+          percent={getPercent(getvolume, targetVolume)}
+          text={"이전강도"}
+          color={"red"}
+        />
+        <DoughnutChart
+          size={"100"}
+          percent={getPercent(getvolume, targetVolume)}
+          text={"감정지수"}
+          color={"orange"}
+        />
       </Doughnut>
 
       {console.log(
@@ -34,7 +47,6 @@ const Home = ({ data }) => {
         )
       )}
       {console.log((40000 / targetVolume).toFixed(2))}
-
     </div>
   );
 };
@@ -42,9 +54,8 @@ const Home = ({ data }) => {
 const Doughnut = styled.div`
   display: flex;
   justify-content: center;
-  padding: 10px;
-  padding-top: 20px;
-  gap: 50px;
+  padding: 20px 10px 10px 10px;
+  gap: 40px;
 `;
 
 export default Home;
