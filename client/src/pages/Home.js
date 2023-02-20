@@ -2,6 +2,7 @@ import React from "react";
 import DoughnutChart from "../components/DoughnutChart";
 import styled from "styled-components";
 import Chart from '../components/chart/Chart'
+import { getPercent } from "../components/utils/ChartUtils";
 
 
 //.임의의 목표볼륨을 설정
@@ -15,9 +16,6 @@ const Home = ({ data }) => {
       .reduce((pre, cur) => pre + cur, 0)
   )[data.length - 1];
 
-  const getPercent = (getVolume, targetVolume) => {
-    return (getVolume / targetVolume).toFixed(2);
-  };
 
 
   return (

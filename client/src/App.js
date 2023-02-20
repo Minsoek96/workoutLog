@@ -1,5 +1,4 @@
 import "./App.css";
-import { useRef } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Edit from "./pages/Edit";
@@ -21,7 +20,7 @@ const getList = (random) => Array(random)
     workout_sets: 4,
   }));
 //임시 더미 데이터 생성
-  const dummyData = Array(50)
+  const dummyData = Array(30)
   .fill(0)
   .map((_, i) => ({
     id: i,
