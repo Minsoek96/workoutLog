@@ -3,7 +3,7 @@ import styled from "styled-components";
 import BarChartItem from "./BarChartItem";
 
 const BarChart = ({ oneWeekData }) => {
-  const infoHandler = (text) => {
+  const handlerInfo = (text) => {
     console.log(text);
   };
   return (
@@ -16,7 +16,7 @@ const BarChart = ({ oneWeekData }) => {
               key={i}
               volume={a}
               xAxios={60 + i * 40}
-              addInfo={infoHandler}
+              addInfo={handlerInfo}
               index={i}
             />
           ))}

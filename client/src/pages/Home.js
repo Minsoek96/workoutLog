@@ -3,7 +3,7 @@ import DoughnutChart from "../components/chart/DoughnutChart";
 import styled from "styled-components";
 import Chart from "../components/chart/Chart";
 import { getPercent } from "../components/utils/ChartUtils";
-import WorkOutListView from "../components/WorkOutListView";
+import WorkOutList from "../components/WorkOutList";
 
 //.임의의 목표볼륨을 설정
 const targetVolume = 70000;
@@ -38,7 +38,7 @@ const Home = ({ data }) => {
         />
       </Doughnut>
       <Chart data={data} />
-      <WorkOutListView />
+      <WorkOutList data={data}/>
     </div>
   );
 };

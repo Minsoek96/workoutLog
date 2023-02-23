@@ -58,7 +58,6 @@ const Doughnut = styled.div`
 const DoughnutSVG = styled.svg``;
 
 const circleAni = (size) => keyframes`
-${console.log(size)}
   0%{
     stroke-dasharray: 0 ${2 * Math.PI * size};
   }

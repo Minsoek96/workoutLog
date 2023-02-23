@@ -45,7 +45,6 @@ const BarChartItem = ({
 };
 
 const rectAni = ({ props }) => keyframes`
-  ${console.log(props)}
   from {
     y: 80
     }

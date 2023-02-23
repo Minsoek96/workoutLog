@@ -21,7 +21,7 @@ const Chart = ({ data }) => {
       firstDay.getDate() + 6
     );
     const filterData = data.filter(
-      (it) => firstDay <= it.timestamp && it.timestamp <= lastDay
+      (a) => firstDay <= a.timestamp && a.timestamp <= lastDay
     );
 
     //SVG를 렌더링 하기위해 남은 일주일 데이터를 채워주는 작업
