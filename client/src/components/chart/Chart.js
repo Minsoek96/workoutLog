@@ -23,19 +23,19 @@ const Chart = ({ data }) => {
     const filterData = data.filter(
       (it) => firstDay <= it.timestamp && it.timestamp <= lastDay
     );
+
     //SVG를 렌더링 하기위해 남은 일주일 데이터를 채워주는 작업
+    //사전 작업시에는 데이터시간을 오늘을 기준으로 하루씩 차감 하여 50개의 데이터를 생성하여 day를 역순으로 생각하고 코드를짬..
+    const daySearch = filterData.map(a => new Date(a.timestamp).getDay())
+
     const oneWeekData = [];
-    if (sundaySearch !== 0) {
-      for (let i = 0; i <= sundaySearch - 1; i++) {
-        oneWeekData.push(0);
+    for (let i = 0; i <= 6; i++) {
+      oneWeekData[daySearch[i]] = filterData[i];
+      if (!oneWeekData[i]) {
+        oneWeekData[i] = parseInt(0);
       }
     }
-    for (let i = filterData.length; i <= 6; i++) {
-      oneWeekData[i] =
-        filterData[i - sundaySearch] === undefined
-          ? 0
-          : filterData[i - sundaySearch];
-    }
+
     setVolumeData(
       oneWeekData.map((a) =>
         a === 0
@@ -57,8 +57,8 @@ const Chart = ({ data }) => {
 export default Chart;
 
 const ChartStyle = styled.div`
-  position: absolute;
-  height: 20rem;
+  height: 400px;
   width: 100%;
   background-color: #ebebeb;
 `;
+

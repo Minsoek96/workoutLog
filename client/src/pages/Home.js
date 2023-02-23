@@ -1,9 +1,9 @@
 import React from "react";
-import DoughnutChart from "../components/DoughnutChart";
+import DoughnutChart from "../components/chart/DoughnutChart";
 import styled from "styled-components";
-import Chart from '../components/chart/Chart'
+import Chart from "../components/chart/Chart";
 import { getPercent } from "../components/utils/ChartUtils";
-
+import WorkOutListView from "../components/WorkOutListView";
 
 //.임의의 목표볼륨을 설정
 const targetVolume = 70000;
@@ -15,8 +15,6 @@ const Home = ({ data }) => {
       .map((a) => a.workout_weights * a.workout_reps * a.workout_sets)
       .reduce((pre, cur) => pre + cur, 0)
   )[data.length - 1];
-
-
 
   return (
     <div className="Home">
@@ -39,7 +37,8 @@ const Home = ({ data }) => {
           color={"orange"}
         />
       </Doughnut>
-      <Chart data={data}/>
+      <Chart data={data} />
+      <WorkOutListView />
     </div>
   );
 };
