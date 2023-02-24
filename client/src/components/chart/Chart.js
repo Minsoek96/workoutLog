@@ -57,7 +57,7 @@ const Chart = ({ data }) => {
 export default Chart;
 
 const ChartStyle = styled.div`
-  height: 400px;
+  height: 100%;
   width: 100%;
   background-color: #ebebeb;
 `;

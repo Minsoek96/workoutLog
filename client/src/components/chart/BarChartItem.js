@@ -7,38 +7,36 @@ const BarChartItem = ({
   index,
   volume,
   xAxios,
-  addInfo,
-  heightValue = parseInt(70),
-  yValue = parseInt(15),
+  Info,
+  barWidth,
+  barHight,
+  barMargin = parseInt(15),
 }) => {
   const textData = ["일", "월", "화", "수", "목", "금", "토"];
-  const volumeInfo = () => {
-    console.log(`목표수치: 100000 / 수행볼륨:${volume}`);
-  };
   return (
     <>
-      <Text
-        x={xAxios + 2}
-        y={heightValue + yValue*1.8}
-      >
+      <Text x={xAxios + 2} y={barHight + barMargin * 1.8}>
         {textData[index]}
       </Text>
       <rect
         onClick={() => {
-          addInfo(volume);
+          Info(volume);
         }}
-        width="16"
+        width={barWidth}
         height={70}
         fill="#fff"
         x={xAxios}
-        y={yValue}
+        y={barMargin}
       />
       <Rect
-        width="16"
+        onClick={() => {
+          Info(volume);
+        }}
+        width={barWidth}
         height={getPercent(volume, 100000) * 100}
         fill="#202020"
         x={xAxios}
-        y={heightValue + yValue - getPercent(volume, 100000) * 100}
+        y={barHight + barMargin - getPercent(volume, 100000) * 100}
       />
     </>
   );

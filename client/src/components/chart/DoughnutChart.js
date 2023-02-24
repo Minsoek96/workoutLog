@@ -46,14 +46,21 @@ const DoughnutChart = ({
 export default DoughnutChart;
 
 const Doughnut = styled.div`
-  height: 250px;
-  width: 250px;
+  display: flex;
+  width: 100%;
+  height: 100%;
   background: #181818;
   color: white;
   border-radius: 25px;
   box-shadow: 0 5px 21px rgba(0, 0, 0, 08);
   font-family: var(--font--Roboto);
 `;
+
+const DoughuntINFO = styled.div`
+  position: absolute;
+  font-size: 20px;
+`;
+
 
 const DoughnutSVG = styled.svg``;
 
@@ -65,10 +72,4 @@ const circleAni = (size) => keyframes`
 
 const Circle = styled.circle`
   animation: ${(props) => circleAni(props.size)} 3s ease;
-`;
-
-const DoughuntINFO = styled.div`
-  position: relative;
-  top: -50%;
-  font-size: 20px;
 `;

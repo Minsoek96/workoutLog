@@ -9,7 +9,7 @@ import WorkOutList from "../components/WorkOutList";
 const targetVolume = 70000;
 
 const Home = ({ data }) => {
-  console.log(data)
+  // console.log(data)
   const [curDate, setCurDate] = useState(new Date());
   const [todayData, setTodayData] = useState([]);
 
@@ -70,10 +70,12 @@ const Home = ({ data }) => {
 };
 
 const Doughnut = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 20px 10px 10px 10px;
-  gap: 40px;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  height: 200px;
+  width: 100%;
+  padding: 20px 2px;
 `;
 
 export default Home;
