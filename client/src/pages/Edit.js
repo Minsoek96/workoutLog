@@ -55,7 +55,6 @@ const Edit = () => {
               <input
                 type="number"
                 name="weghit"
-                step={10}
                 min={0}
                 value={form.weghit}
                 onChange={(e) => handleChange(e, index)}

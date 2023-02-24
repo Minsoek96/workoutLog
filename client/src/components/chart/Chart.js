@@ -18,7 +18,7 @@ const Chart = ({ data }) => {
     const lastDay = new Date(
       firstDay.getFullYear(),
       firstDay.getMonth(),
-      firstDay.getDate() + 6
+      firstDay.getDate() + 7
     );
     const filterData = data.filter(
       (a) => firstDay <= a.timestamp && a.timestamp <= lastDay

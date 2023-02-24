@@ -29,7 +29,7 @@ const dummyData = Array(30)
     timestamp: new Date(1674489565111).getTime() + getOneMoreDay(), //jan 24 2023기준
     workout_list: getList(Math.round(Math.random() * (15 - 5)) + 5),
   }));
-  console.log(dummyData)
+  dummyData.map( a => console.log(new Date(a.timestamp)))
 
 const App = () => {
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DoughnutChart from "../components/chart/DoughnutChart";
 import styled from "styled-components";
 import Chart from "../components/chart/Chart";
@@ -9,12 +9,38 @@ import WorkOutList from "../components/WorkOutList";
 const targetVolume = 70000;
 
 const Home = ({ data }) => {
+  console.log(data)
+  const [curDate, setCurDate] = useState(new Date());
+  const [todayData, setTodayData] = useState([]);
+
+  useEffect(() => {
+    //오늘 운동한 종목을 렌더링 하기 위한 필터링작업 
+    const firstDay = new Date(
+      curDate.getFullYear(),
+      curDate.getMonth(),
+      curDate.getDate()
+    );
+    const lastDay = new Date(
+      curDate.getFullYear(), 
+      curDate.getMonth(),
+      curDate.getDate(),
+      23,
+      59,
+      59,
+      59
+    );
+    const filterData = data.filter(
+      (a) => firstDay <= a.timestamp && a.timestamp <= lastDay
+    );
+    setTodayData(filterData)
+  }, [data, curDate]);
+
   //데이터에서 볼륨을 계산하고 퍼센트값을 반환
-  const getvolume = data.map((a) =>
+  const getvolume = todayData.map((a) =>
     a.workout_list
       .map((a) => a.workout_weights * a.workout_reps * a.workout_sets)
       .reduce((pre, cur) => pre + cur, 0)
-  )[data.length - 1];
+  );
 
   return (
     <div className="Home">
@@ -38,7 +64,7 @@ const Home = ({ data }) => {
         />
       </Doughnut>
       <Chart data={data} />
-      <WorkOutList data={data}/>
+      <WorkOutList todayData={todayData}/>
     </div>
   );
 };
