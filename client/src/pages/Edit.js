@@ -1,34 +1,43 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import MyButton from "../components/MyButton";
 
-const Edit = () => {
-  const curTitle = useRef(" ")
+const Edit = ({ onCreate }) => {
+  const curTitle = useRef(" ");
   const [forms, setForms] = useState([
-    { title: "", weghit: "", reps: "", sets: 1 },
+    { workout_title: "", workout_weights: 0, workout_reps: 0, workout_sets: 1 },
   ]);
 
   const handleClick = (check) => {
-    console.log(check)
-    setForms([...forms, {title: check===false ? "":curTitle.current ,weghit: "", reps: "", sets: 1 }]);
-    console.log(forms)
+    setForms([
+      ...forms,
+      {
+        workout_title: check === false ? "" : curTitle.current,
+        workout_weights: 0,
+        workout_reps: 0,
+        workout_sets: 1,
+      },
+    ]);
   };
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    console.log(e.target)
+    console.log(e.target);
     const newForms = [...forms];
-    newForms[index][name] = value;
-    if(e.target.name === 'title'){
-      curTitle.current = e.target.value
+    if (e.target.name === "workout_title") {
+      curTitle.current = e.target.value;
+      newForms[index][name] = value;
+    } else {
+      newForms[index][name] = parseInt(value);
     }
     setForms(newForms);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(forms);
+    onCreate(forms);
+    navigator("/", { replace: true });
   };
 
   const navigator = useNavigate();
@@ -36,8 +45,6 @@ const Edit = () => {
   return (
     <EditStyle>
       <MyButton text="뒤로가기" onClick={() => navigator(-1)}></MyButton>
-      <MyButton text="같은종목" onClick={()=>handleClick(true)} />
-      <MyButton text="다른종목" onClick={()=>handleClick(false)} />
       <form onSubmit={handleSubmit}>
         {forms.map((form, index) => (
           <div key={index}>
@@ -45,8 +52,8 @@ const Edit = () => {
               Title:
               <input
                 type="text"
-                name="title"
-                value={form.title}
+                name="workout_title"
+                value={form.workout_title}
                 onChange={(e) => handleChange(e, index)}
               />
             </label>
@@ -54,9 +61,9 @@ const Edit = () => {
               Weghit:
               <input
                 type="number"
-                name="weghit"
+                name="workout_weights"
                 min={0}
-                value={form.weghit}
+                value={form.workout_weights}
                 onChange={(e) => handleChange(e, index)}
               />
             </label>
@@ -64,10 +71,10 @@ const Edit = () => {
               Reps:
               <input
                 type="number"
-                name="reps"
+                name="workout_reps"
                 step={1}
                 min={0}
-                value={form.reps}
+                value={form.workout_reps}
                 onChange={(e) => handleChange(e, index)}
               />
             </label>
@@ -75,10 +82,10 @@ const Edit = () => {
               Sets:
               <input
                 type="number"
-                name="sets"
+                name="workout_sets"
                 step={1}
                 min={0}
-                value={form.sets}
+                value={form.workout_sets}
                 onChange={(e) => handleChange(e, index)}
               />
             </label>
@@ -86,11 +93,13 @@ const Edit = () => {
         ))}
         <MyButton text="작성완료"></MyButton>
       </form>
+        <MyButton text="같은종목" onClick={() => handleClick(true)} />
+        <MyButton text="다른종목" onClick={() => handleClick(false)} />
     </EditStyle>
   );
 };
 const EditStyle = styled.div`
-  height: 500px;
+  height: 100vh;
   color: white;
   overflow-y: scroll;
 `;
