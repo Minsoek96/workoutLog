@@ -22,15 +22,15 @@ const getList = (random) =>
       workout_sets: 4,
     }));
 //임시 더미 데이터 생성
-const dummyData = Array(30)
+const dummyData = Array(25)
   .fill(0)
   .map((_, i) => ({
     id: i,
     userId: "kuku",
-    timestamp: new Date(1674489565111).getTime() + getOneMoreDay(), //jan 24 2023기준
+    timestamp: new Date(1674835165111).getTime() + getOneMoreDay(), //jan 24 2023기준
     workout_list: getList(Math.round(Math.random() * (15 - 5)) + 5),
   }));
-// dummyData.map((a) => console.log(new Date(a.timestamp)));
+dummyData.map((a) => console.log(new Date(a.timestamp)));
 
 const reducer = (state, action) => {
   let newState = [];

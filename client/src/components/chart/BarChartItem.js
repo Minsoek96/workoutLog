@@ -15,16 +15,13 @@ const BarChartItem = ({
   const textData = ["일", "월", "화", "수", "목", "금", "토"];
   return (
     <>
-      <Text x={xAxios + 2} y={barHight + barMargin * 1.8}>
-        {textData[index]}
-      </Text>
-      <rect
+      <TargetRect
         onClick={() => {
           Info(volume);
         }}
         width={barWidth}
         height={70}
-        fill="#fff"
+        fill="#2c313a"
         x={xAxios}
         y={barMargin}
       />
@@ -34,10 +31,13 @@ const BarChartItem = ({
         }}
         width={barWidth}
         height={getPercent(volume, 100000) * 100}
-        fill="#202020"
+        fill="#23ada9"
         x={xAxios}
         y={barHight + barMargin - getPercent(volume, 100000) * 100}
       />
+      <Text x={xAxios + 2} y={barHight + barMargin * 1.8}>
+        {textData[index]}
+      </Text>
     </>
   );
 };
@@ -50,10 +50,21 @@ const rectAni = ({ props }) => keyframes`
 
 const Rect = styled.rect`
   animation: ${(props) => rectAni({ props })} 0.5s ease;
+  &:hover {
+    opacity: 0.5;
+  }
+`;
+
+const TargetRect = styled.rect`
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const Text = styled.text`
   font-size: 10px;
+  fill: #c3cce0;
 `;
+
 
 export default BarChartItem;

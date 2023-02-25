@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Chart from "../components/chart/Chart";
 import { getPercent } from "../components/utils/ChartUtils";
 import WorkOutList from "../components/WorkOutList";
+import DarkButton from "../components/DarkButton";
+import Header from "../components/Header";
 
 //.임의의 목표볼륨을 설정
 const targetVolume = 70000;
@@ -12,16 +14,29 @@ const Home = ({ data }) => {
   // console.log(data)
   const [curDate, setCurDate] = useState(new Date());
   const [todayData, setTodayData] = useState([]);
+  const headText = `${curDate.getMonth() +1} 월 ${curDate.getDate()}`;
+
+  const decrease = () => {
+    setCurDate(
+      new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - 1)
+    );
+  };
+
+  const increase = () => {
+    setCurDate(
+      new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() + 1)
+    );
+  };
 
   useEffect(() => {
-    //오늘 운동한 종목을 렌더링 하기 위한 필터링작업 
+    //오늘 운동한 종목을 렌더링 하기 위한 필터링작업
     const firstDay = new Date(
       curDate.getFullYear(),
       curDate.getMonth(),
       curDate.getDate()
     );
     const lastDay = new Date(
-      curDate.getFullYear(), 
+      curDate.getFullYear(),
       curDate.getMonth(),
       curDate.getDate(),
       23,
@@ -32,7 +47,7 @@ const Home = ({ data }) => {
     const filterData = data.filter(
       (a) => firstDay <= a.timestamp && a.timestamp <= lastDay
     );
-    setTodayData(filterData)
+    setTodayData(filterData);
   }, [data, curDate]);
 
   //데이터에서 볼륨을 계산하고 퍼센트값을 반환
@@ -44,6 +59,11 @@ const Home = ({ data }) => {
 
   return (
     <div className="Home">
+      <Header
+        leftChild={<DarkButton onClick={decrease} text={"<"}></DarkButton>}
+        text={headText}
+        rightChild={<DarkButton onClick={increase} text={">"}></DarkButton>}
+      ></Header>
       <Doughnut>
         <DoughnutChart
           size={"100"}
@@ -63,8 +83,8 @@ const Home = ({ data }) => {
           color={"orange"}
         />
       </Doughnut>
-      <Chart data={data} />
-      <WorkOutList todayData={todayData}/>
+      <Chart data={data} curDate={curDate}/>
+      <WorkOutList todayData={todayData} />
     </div>
   );
 };

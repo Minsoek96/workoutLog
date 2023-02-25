@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const MyButton = ({ text = "안녕하세요", onClick }) => {
+const YellowButton = ({ text = "안녕하세요", onClick }) => {
   return <BeautyButton onClick={onClick}>{text}</BeautyButton>;
 };
 const BeautyButton = styled.button`
@@ -23,4 +23,4 @@ const BeautyButton = styled.button`
   }
 `;
 
-export default MyButton;
+export default YellowButton;

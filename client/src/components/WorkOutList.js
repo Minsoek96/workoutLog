@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import WorkOutListItem from "./WorkOutListItem";
-import MyButton from "./MyButton";
+import YellowButton from "./YellowButton";
 
 const WorkOutList = ({ todayData }) => {
   const navigator = useNavigate();
@@ -21,9 +21,9 @@ const WorkOutList = ({ todayData }) => {
         ))
       ) : (
         <NoneData>
-          오늘은 아직 운동을 하지 않았습니다....
+          <h4>오늘은 아직 운동을 하지 않았습니다....</h4>
           <div>Go To The Fucking Gym </div>
-          <MyButton
+          <YellowButton
             text="작성하러가기"
             onClick={() => {
               navigator("/Edit");
@@ -36,17 +36,16 @@ const WorkOutList = ({ todayData }) => {
 };
 
 const WorkOutListStyle = styled.div`
-  position: absolute;
-  align-items: center;
-  justify-content: center;
-  padding: 5rem 0.5rem;
-  height: 30%;
-  width: 100%;
-  background-color: #1e1e1e;
-  color: black;
+  display: grid;
+  margin-top: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  grid-gap: 1rem;
 `;
 
 const NoneData = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 20% auto;
   color: red;
   button {

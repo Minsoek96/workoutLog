@@ -8,7 +8,6 @@ const WorkOutListItem = ({
   workout_weights,
   data,
 }) => {
-    console.log(data)
   return (
     <WorkOutListItemStyle>
       <div>{workout_title}</div>
@@ -21,8 +20,13 @@ const WorkOutListItem = ({
 
 const WorkOutListItemStyle = styled.div`
   display: flex;
-  justify-content: space-around;
-  margin: 0.5rem auto;
+  justify-content: space-between;
+  padding: 3px 20px;
+  border: 1px solid #575252;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
+  color: #dddddd;
 `;
 
 export default WorkOutListItem;

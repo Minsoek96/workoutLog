@@ -1,5 +1,5 @@
 body {
-  background-color: #f6f6f6;
+  background-color: #1d222c;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +21,7 @@ body {
 }
 
 #root {
-  background-color: #1e1e1e;
+  background-color:#1c1f24;
   box-shadow: rgba(100,100,111,0.2) 0px 7px 29px 0px;
 }
 
