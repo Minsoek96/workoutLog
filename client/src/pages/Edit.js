@@ -35,11 +35,10 @@ const Edit = ({ onCreate, onEdit }) => {
   };
 
   const handleListCheck = (title) => {
-    const filterTitle = saveData.filter((a) => a.title === title)
-    console.log(filterTitle)
-    setForms(filterTitle[0].save_list)
-    setIsLoad(false)
-  }
+    const filterTitle = saveData.filter((a) => a.title === title);
+    setForms(filterTitle[0].save_list);
+    setIsLoad(false);
+  };
 
   const handleClick = (check) => {
     if (
@@ -94,8 +93,10 @@ const Edit = ({ onCreate, onEdit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEdit) {
-      console.log(list.state);
+      console.log("Edit" + list.state[0].id);
       onEdit(list.state[0].id, forms);
+      navigator("/", { replace: true });
+      return; // 실수로 return을 넣지 않아 onCreate까지 동시 수행하는 오류가 발생 !! return을 잊지말자
     }
     if (forms.length > 1) {
       onCreate(forms);
