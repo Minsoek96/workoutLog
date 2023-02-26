@@ -2,7 +2,8 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Edit from "./pages/Edit";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
+import {saveData} from './components/utils/SaveList'
 
 //주간 막대 차트를 분리하기 위해
 let seconds = 0;
@@ -22,15 +23,15 @@ const getList = (random) =>
       workout_sets: 4,
     }));
 //임시 더미 데이터 생성
-const dummyData = Array(25)
+const dummyData = Array(29)
   .fill(0)
   .map((_, i) => ({
     id: i,
-    userId: "kuku",
     timestamp: new Date(1674835165111).getTime() + getOneMoreDay(), //jan 24 2023기준
     workout_list: getList(Math.round(Math.random() * (15 - 5)) + 5),
   }));
-dummyData.map((a) => console.log(new Date(a.timestamp)));
+// dummyData.map((a) => console.log(new Date(a.timestamp)));
+
 
 const reducer = (state, action) => {
   let newState = [];
@@ -39,36 +40,64 @@ const reducer = (state, action) => {
       return action.data;
     }
     case "CREATE": {
-      newState = [...state,action.data]
-      break
+      newState = [...state, action.data];
+      break;
+    }
+    case "EDIT": {
+      console.log(action.data);
+      console.log(state);
+      newState = state.map((a) =>
+        a.id === action.data.id ? { ...action.data } : a
+      );
+      console.log({ newState });
+      break;
     }
     default:
       return state;
   }
-  console.log(newState)
-  return newState
+  return newState;
 };
 
 const App = () => {
+  const [data, dispatch] = useReducer(reducer, []);
+  console.log(data);
+  const listId = useRef(dummyData.length);
   useEffect(() => {
-    dispatch({type:"INIT", data: dummyData})
-  },[])
+    dispatch({ type: "INIT", data: dummyData });
+  }, []);
+
   const onCreate = (list) => {
     dispatch({
-      type: 'CREATE',
+      type: "CREATE",
       data: {
+        id: listId.current,
         timestamp: new Date().getTime(),
-        workout_list: list
-      }
-    })
-  }
-  const [data, dispatch] = useReducer(reducer, []);
+        workout_list: list,
+      },
+    });
+    listId.current += 1;
+  };
+
+  const onEdit = (id, list) => {
+    const targetDate = data.filter((a) => a.id === id);
+    dispatch({
+      type: "EDIT",
+      data: {
+        id,
+        timestamp: targetDate[0].timestamp,
+        workout_list: list,
+      },
+    });
+  };
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
           <Route path="/" element={<Home data={data} />} />
-          <Route path="edit" element={<Edit onCreate={onCreate}/>} />
+          <Route
+            path="edit"
+            element={<Edit onCreate={onCreate} onEdit={onEdit} />}
+          />
         </Routes>
       </div>
     </BrowserRouter>

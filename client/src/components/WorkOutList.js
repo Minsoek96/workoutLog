@@ -3,32 +3,59 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import WorkOutListItem from "./WorkOutListItem";
 import YellowButton from "./YellowButton";
+import Modal from "./Modal";
+import DarkButton from "./DarkButton";
 
-const WorkOutList = ({ todayData }) => {
+const WorkOutList = ({ todayData, curDate }) => {
   const navigator = useNavigate();
   const [filterList, setFilterList] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleList = () => {
+    const target = parseInt(new Date().getDate());
+    const curday = parseInt(new Date(curDate).getDate());
+    if (target > curday) {
+      setModalOpen(true);
+      return;
+    }
+    navigator("/Edit", { state: todayData });
+  };
 
   useEffect(() => {
-    console.log('렌더링')
+    console.log("렌더링");
     setFilterList(todayData[0] ? todayData[0].workout_list : []);
-  },[todayData]);
+  }, [todayData]);
 
   return (
     <WorkOutListStyle>
+      {modalOpen ? (
+        <Modal
+          isOpen={modalOpen}
+          onClose={closeModal}
+          contents={{
+            title: "TIP.",
+            content: "지나간 시간은 돌아오지 않습니다.!",
+          }}
+        />
+      ) : (
+        <></>
+      )}
       {filterList.length > 0 ? (
-        filterList.map((a, i) => (
-          <WorkOutListItem key={i} {...a} data={filterList} />
-        ))
+        <>
+          {filterList.map((a, i) => (
+            <WorkOutListItem key={i} {...a} data={filterList} />
+          ))}
+          <DarkButton text={"수정하기"} onClick={handleList} />
+        </>
       ) : (
         <NoneData>
           <h4>오늘은 아직 운동을 하지 않았습니다....</h4>
           <div>Go To The Fucking Gym </div>
-          <YellowButton
-            text="작성하러가기"
-            onClick={() => {
-              navigator("/Edit");
-            }}
-          />
+          <YellowButton text="작성하러가기" onClick={handleList} />
         </NoneData>
       )}
     </WorkOutListStyle>

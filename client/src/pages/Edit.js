@@ -1,26 +1,51 @@
-import React, { useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import DarkButton from "../components/DarkButton";
 import Modal from "../components/Modal";
+import LoadModal from "../components/LoadModal";
+import Header from "../components/Header";
+import { saveData } from "../components/utils/SaveList";
 
-const Edit = ({ onCreate }) => {
+const Edit = ({ onCreate, onEdit }) => {
   const curTitle = useRef(" ");
   const [forms, setForms] = useState([
     { workout_title: "", workout_weights: 0, workout_reps: 0, workout_sets: 1 },
   ]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState({});
+  const [isLoad, setIsLoad] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const list = useLocation([]);
+
+  useEffect(() => {
+    if (list.state.length > 0) {
+      setForms(list.state[0].workout_list);
+      setIsEdit(true);
+    }
+  }, [list]);
 
   const closeModal = () => {
     setModalOpen(false);
+    setIsLoad(false);
   };
+
+  const handleSave = () => {
+    setIsLoad(true);
+  };
+
+  const handleListCheck = (title) => {
+    const filterTitle = saveData.filter((a) => a.title === title)
+    console.log(filterTitle)
+    setForms(filterTitle[0].save_list)
+    setIsLoad(false)
+  }
 
   const handleClick = (check) => {
     if (
-      forms[forms.length-1].workout_weights === 0 ||
-      forms[forms.length-1].workout_reps === 0 ||
-      forms[forms.length-1].workout_sets === 0
+      forms[forms.length - 1].workout_weights === 0 ||
+      forms[forms.length - 1].workout_reps === 0 ||
+      forms[forms.length - 1].workout_sets === 0
     ) {
       setModalOpen(true);
       setModalData({
@@ -56,7 +81,6 @@ const Edit = ({ onCreate }) => {
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    console.log(e.target);
     const newForms = [...forms];
     if (e.target.name === "workout_title") {
       curTitle.current = e.target.value;
@@ -69,6 +93,10 @@ const Edit = ({ onCreate }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isEdit) {
+      console.log(list.state);
+      onEdit(list.state[0].id, forms);
+    }
     if (forms.length > 1) {
       onCreate(forms);
       navigator("/", { replace: true });
@@ -85,14 +113,30 @@ const Edit = ({ onCreate }) => {
   const { id } = useParams();
   return (
     <EditStyle>
+      <div className="bold">
+        <Header text="Record" />
+      </div>
       {modalOpen ? (
         <Modal isOpen={modalOpen} onClose={closeModal} contents={modalData} />
       ) : (
         <></>
       )}
+      {isLoad ? (
+        <LoadModal
+          isOpen={isLoad}
+          onClose={closeModal}
+          saveData={saveData}
+          onClick={handleListCheck}
+        />
+      ) : (
+        <></>
+      )}
       <div className="container">
         <DarkButton text="뒤로가기" onClick={() => navigator(-1)}></DarkButton>
-        <DarkButton text="작성완료" onClick={handleSubmit}></DarkButton>
+        <DarkButton
+          text={isEdit ? "수정완료" : "작성완료"}
+          onClick={handleSubmit}
+        ></DarkButton>
       </div>
       <form onSubmit={handleSubmit}>
         {forms.map((form, index) => (
@@ -150,7 +194,10 @@ const Edit = ({ onCreate }) => {
           <DarkButton text="같은종목" onClick={() => handleClick(true)} />
           <DarkButton text="다른종목" onClick={() => handleClick(false)} />
         </div>
-        <DarkButton text="삭제하기" onClick={handleRemove} />
+        <div>
+          <DarkButton text="불러오기" onClick={handleSave} />
+          <DarkButton text="삭제하기" onClick={handleRemove} />
+        </div>
       </div>
     </EditStyle>
   );
@@ -177,6 +224,9 @@ const EditStyle = styled.div`
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 10px;
   }
+  .bold {
+    font-weight: bold;
+  }
 
   .container {
     display: flex;
@@ -197,13 +247,14 @@ const EditStyle = styled.div`
   form {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
+    color: #8f8888;
   }
 
   input {
     width: 65px;
     margin: 10px 20px;
     border-radius: 5px;
-    color: #ce4141;
+    color: #d8caca;
     background-color: #534e4e;
   }
 `;

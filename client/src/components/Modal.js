@@ -11,7 +11,7 @@ const Modal = ({ isOpen, onClose, contents={} }) => {
           <p>{contents.content}</p>
         </div>
         <div className="modal-Container">
-          <div className="BBB">
+          <div className="modal-Buttons">
             <DarkButton text={"클릭"} />
             <DarkButton onClick={onClose} text={"닫기"} />
           </div>
@@ -33,6 +33,7 @@ const ModalStyle = styled.div`
   background-color: rgba(36, 31, 31, 0.5);
 `;
 const ModalBox = styled.div`
+  z-index: 100;
   position: relative;
   height: 250px;
   width: 500px;
@@ -51,6 +52,7 @@ const ModalBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #e6dfdf;
   }
   .modal-Container {
     width: 500px;
@@ -58,7 +60,7 @@ const ModalBox = styled.div`
     position: absolute;
     bottom: 0;
   }
-  .BBB {
+  .modal-Buttons {
     display: flex;
     justify-content: space-between;
     margin-right: 15px;

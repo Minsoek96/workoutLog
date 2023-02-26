@@ -1,0 +1,168 @@
+export const saveData = [
+  {
+    title: "가슴운동",
+    save_list: [
+      {
+        workout_title: "벤치프레스",
+        workout_weights: 40,
+        workout_reps: 20,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "벤치프레스",
+        workout_weights: 60,
+        workout_reps: 12,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "벤치프레스",
+        workout_weights: 80,
+        workout_reps: 6,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "벤치프레스",
+        workout_weights: 60,
+        workout_reps: 10,
+        workout_sets: 2,
+      },
+      {
+        workout_title: "인클라인벤치프레스",
+        workout_weights: 40,
+        workout_reps: 20,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "인클라인벤치프레스",
+        workout_weights: 60,
+        workout_reps: 10,
+        workout_sets: 2,
+      },
+      {
+        workout_title: "인클라인벤치프레스",
+        workout_weights: 70,
+        workout_reps: 10,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "덤벨프레스",
+        workout_weights: 40,
+        workout_reps: 12,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "덤벨프레스",
+        workout_weights: 50,
+        workout_reps: 10,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "덤벨프레스",
+        workout_weights: 60,
+        workout_reps: 8,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "인클라인덤벨",
+        workout_weights: 40,
+        workout_reps: 10,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "인클라인덤벨",
+        workout_weights: 50,
+        workout_reps: 10,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "인클라인덤벨",
+        workout_weights: 50,
+        workout_reps: 10,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "딥스",
+        workout_weights: 75,
+        workout_reps: 10,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "딥스",
+        workout_weights: 50,
+        workout_reps: 10,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "딥스",
+        workout_weights: 50,
+        workout_reps: 10,
+        workout_sets: 1,
+      },
+      {
+        workout_title: "플라이",
+        workout_weights: 35,
+        workout_reps: 10,
+        workout_sets: 3,
+      },
+      {
+        workout_title: "딥스머신",
+        workout_weights: 40,
+        workout_reps: 10,
+        workout_sets: 2,
+      },
+    ],
+  },
+  {
+    title: "등운동",
+    save_list: [
+      {
+        workout_title: "풀업",
+        workout_weights: 75,
+        workout_reps: 10,
+        workout_sets: 3,
+      },
+      {
+        workout_title: "랫풀다운",
+        workout_weights: 60,
+        workout_reps: 10,
+        workout_sets: 3,
+      },
+      {
+        workout_title: "클로즈그립랫풀다운",
+        workout_weights: 70,
+        workout_reps: 10,
+        workout_sets: 3,
+      },
+      {
+        workout_title: "시티드로우",
+        workout_weights: 30,
+        workout_reps: 10,
+        workout_sets: 3,
+      },
+      {
+        workout_title: "로우머신",
+        workout_weights: 40,
+        workout_reps: 10,
+        workout_sets: 3,
+      },
+      {
+        workout_title: "T바로우",
+        workout_weights: 40,
+        workout_reps: 10,
+        workout_sets: 3,
+      },
+      {
+        workout_title: "데드리프트",
+        workout_weights: 100,
+        workout_reps: 10,
+        workout_sets: 3,
+      },
+      {
+        workout_title: "데드리프트",
+        workout_weights: 120,
+        workout_reps: 8,
+        workout_sets: 1,
+      },
+    ],
+  },
+];

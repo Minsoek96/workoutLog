@@ -4,20 +4,16 @@ import BarChart from "./BarChart";
 
 const Chart = ({ data, curDate }) => {
   const [volumeData, setVolumeData] = useState();
-  console.log({data})
-  console.log({curDate})
   useEffect(() => {
     console.log("차트 렌더링")
     //현시점으로 부터 이전 일요일까지 일수를 계산하고 필터링한다.
     //주간 데이터를 분리하기 위한
     const sundaySearch = new Date(curDate).getDay();
-    console.log(sundaySearch)
     const firstDay = new Date(
       curDate.getFullYear(),
       curDate.getMonth(),
       curDate.getDate() - sundaySearch
     );
-    console.log(firstDay)
     const lastDay = new Date(
       firstDay.getFullYear(),
       firstDay.getMonth(),
@@ -26,7 +22,6 @@ const Chart = ({ data, curDate }) => {
     const filterData = data.filter(
       (a) => firstDay <= a.timestamp && a.timestamp <= lastDay
     );
-      console.log(filterData)
     //SVG를 렌더링 하기위해 남은 일주일 데이터를 채워주는 작업
     //사전 작업시에는 데이터시간을 오늘을 기준으로 하루씩 차감 하여 50개의 데이터를 생성하여 day를 역순으로 생각하고 코드를짬..
     const daySearch = filterData.map(a => new Date(a.timestamp).getDay())
