@@ -55,7 +55,7 @@ const Chart = ({ data, curDate }) => {
 export default Chart;
 
 const ChartStyle = styled.div`
-  margin-top: 20px;
+  margin: 12px auto;
   height: 100%;
   width: 100%;
   border-radius: 10px;

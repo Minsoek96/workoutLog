@@ -4,7 +4,6 @@ import DarkButton from "./DarkButton";
 
 const LoadModal = ({ isOpen, onClose, saveData = [], onClick }) => {
   const [curList, setList] = useState({});
-  console.log(curList);
   return (
     <LoadModalStyle isOpen={isOpen}>
       <LoadModalBox>
@@ -68,6 +67,7 @@ const LoadModalBox = styled.div`
   .loadModal-Contents li {
     list-style: none;
     margin: 8px auto;
+    cursor: pointer;
     &:hover {
       background-color: #a35e5e;
       border-radius: 5px;

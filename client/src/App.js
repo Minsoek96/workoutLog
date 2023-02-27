@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Edit from "./pages/Edit";
 import { useEffect, useReducer, useRef } from "react";
-import {saveData} from './components/utils/SaveList'
+import { saveData } from "./components/utils/SaveList";
 
 //주간 막대 차트를 분리하기 위해
 let seconds = 0;
@@ -28,10 +28,10 @@ const dummyData = Array(29)
   .map((_, i) => ({
     id: i,
     timestamp: new Date(1674835165111).getTime() + getOneMoreDay(), //jan 24 2023기준
+    text: "오늘도 해냈다.",
     workout_list: getList(Math.round(Math.random() * (15 - 5)) + 5),
   }));
 // dummyData.map((a) => console.log(new Date(a.timestamp)));
-
 
 const reducer = (state, action) => {
   let newState = [];
@@ -44,12 +44,9 @@ const reducer = (state, action) => {
       break;
     }
     case "EDIT": {
-      console.log(action.data);
-      console.log(state);
       newState = state.map((a) =>
         a.id === action.data.id ? { ...action.data } : a
       );
-      console.log({ newState });
       break;
     }
     default:
@@ -60,31 +57,33 @@ const reducer = (state, action) => {
 
 const App = () => {
   const [data, dispatch] = useReducer(reducer, []);
-  console.log(data);
+  console.log("sd", { data });
   const listId = useRef(dummyData.length);
   useEffect(() => {
     dispatch({ type: "INIT", data: dummyData });
   }, []);
 
-  const onCreate = (list) => {
+  const onCreate = (list,text) => {
     dispatch({
       type: "CREATE",
       data: {
         id: listId.current,
         timestamp: new Date().getTime(),
+        text,
         workout_list: list,
       },
     });
     listId.current += 1;
   };
 
-  const onEdit = (id, list) => {
+  const onEdit = (id, list,text) => {
     const targetDate = data.filter((a) => a.id === id);
     dispatch({
       type: "EDIT",
       data: {
         id,
         timestamp: targetDate[0].timestamp,
+        text,
         workout_list: list,
       },
     });

@@ -15,7 +15,7 @@ const Home = ({ data }) => {
   const [curDate, setCurDate] = useState(new Date());
   const [todayData, setTodayData] = useState([]);
 
-  const headText = `${curDate.getMonth() +1} 월 ${curDate.getDate()}`;
+  const headText = `${curDate.getMonth() + 1} 월 ${curDate.getDate()}`;
   const decrease = () => {
     setCurDate(
       new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - 1)
@@ -47,7 +47,6 @@ const Home = ({ data }) => {
       (a) => firstDay <= a.timestamp && a.timestamp <= lastDay
     );
     setTodayData(filterData);
-    console.log(todayData)
   }, [data, curDate]);
 
   //데이터에서 볼륨을 계산하고 퍼센트값을 반환
@@ -56,7 +55,6 @@ const Home = ({ data }) => {
       .map((a) => a.workout_weights * a.workout_reps * a.workout_sets)
       .reduce((pre, cur) => pre + cur, 0)
   );
-  console.log(getvolume)
 
   return (
     <div className="Home">
@@ -84,8 +82,8 @@ const Home = ({ data }) => {
           color={"orange"}
         />
       </Doughnut>
-      <Chart data={data} curDate={curDate}/>
-      <WorkOutList todayData={todayData} curDate={curDate}/>
+      <Chart data={data} curDate={curDate} />
+      <WorkOutList todayData={todayData} curDate={curDate} />
     </div>
   );
 };

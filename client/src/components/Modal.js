@@ -12,7 +12,6 @@ const Modal = ({ isOpen, onClose, contents={} }) => {
         </div>
         <div className="modal-Container">
           <div className="modal-Buttons">
-            <DarkButton text={"클릭"} />
             <DarkButton onClick={onClose} text={"닫기"} />
           </div>
         </div>

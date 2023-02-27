@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import WorkOutListItem from "./WorkOutListItem";
+import Review from "./Review";
 import YellowButton from "./YellowButton";
-import Modal from "./Modal";
 import DarkButton from "./DarkButton";
+import Modal from "./Modal";
+
 
 const WorkOutList = ({ todayData, curDate }) => {
   const navigator = useNavigate();
@@ -44,6 +46,7 @@ const WorkOutList = ({ todayData, curDate }) => {
       ) : (
         <></>
       )}
+      <Review todayData={todayData} curDate={curDate}></Review>
       {filterList.length > 0 ? (
         <>
           {filterList.map((a, i) => (
@@ -64,7 +67,7 @@ const WorkOutList = ({ todayData, curDate }) => {
 
 const WorkOutListStyle = styled.div`
   display: grid;
-  margin-top: 50px;
+  margin-top: 20px;
   grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
   grid-gap: 1rem;
 `;

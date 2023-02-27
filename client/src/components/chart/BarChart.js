@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BarChartItem from "./BarChartItem";
 
@@ -7,6 +7,14 @@ const BarChart = ({ oneWeekData }) => {
   const handlerInfo = (text) => {
     setCurVolume(text);
   };
+
+  useEffect(() => {
+    const isWork = new Date().getDay()
+    if(oneWeekData && oneWeekData[isWork] !== 0) {
+      setCurVolume(oneWeekData[isWork])
+    }
+  },[oneWeekData])
+
   const height = 220;
   const width = 100;
   const barWidth = 16;
@@ -16,7 +24,7 @@ const BarChart = ({ oneWeekData }) => {
     <BarChartStyle>
       {/* viewBox에 대한 상대적인값 스타일링을 할 예정 */}
       {curVolume ? (
-        <SmallMessage>출력 : 운동을 {curVolume} 볼륨을 진행하였습니다..</SmallMessage>
+        <SmallMessage>출력 : 고생하셨습니다. {curVolume} 볼륨을 진행하였습니다..</SmallMessage>
       ) : (
         <SmallMessage> 출력 : 운동을 하지 않았네요 ..</SmallMessage>
       )}
@@ -42,12 +50,17 @@ const BarChart = ({ oneWeekData }) => {
 const BarChartStyle = styled.div`
   width: 100%;
   height: 300px;
+  svg {
+    position: relative;
+    bottom:15px
+  }
 `;
 
 const SmallMessage = styled.div`
   display:flex;
   justify-content: center;
   align-items: center;
+  height: 30px;
   border: 1px solid #575353;
   border-radius: 5px;
   font-size: 16px;

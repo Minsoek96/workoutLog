@@ -12,14 +12,17 @@ const Edit = ({ onCreate, onEdit }) => {
   const [forms, setForms] = useState([
     { workout_title: "", workout_weights: 0, workout_reps: 0, workout_sets: 1 },
   ]);
+  const [text, setText] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState({});
   const [isLoad, setIsLoad] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const list = useLocation([]);
+  console.log(text);
 
   useEffect(() => {
     if (list.state.length > 0) {
+      setText(list.state[0].text)
       setForms(list.state[0].workout_list);
       setIsEdit(true);
     }
@@ -94,12 +97,12 @@ const Edit = ({ onCreate, onEdit }) => {
     e.preventDefault();
     if (isEdit) {
       console.log("Edit" + list.state[0].id);
-      onEdit(list.state[0].id, forms);
+      onEdit(list.state[0].id, forms, text);
       navigator("/", { replace: true });
       return; // 실수로 return을 넣지 않아 onCreate까지 동시 수행하는 오류가 발생 !! return을 잊지말자
     }
     if (forms.length > 1) {
-      onCreate(forms);
+      onCreate(forms, text);
       navigator("/", { replace: true });
     } else {
       setModalOpen(true);
@@ -139,9 +142,17 @@ const Edit = ({ onCreate, onEdit }) => {
           onClick={handleSubmit}
         ></DarkButton>
       </div>
+      <div className="impression-Container">
+        <h3>오늘의 소감</h3>
+        <textarea
+          placeholder="필수는 아닙니다..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        ></textarea>
+      </div>
       <form onSubmit={handleSubmit}>
         {forms.map((form, index) => (
-          <div key={index}>
+          <div className="form-Container" key={index}>
             <label>
               Title:
               <input
@@ -225,6 +236,36 @@ const EditStyle = styled.div`
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 10px;
   }
+
+  .impression-Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .impression-Container textarea::-webkit-input-placeholder {
+    text-align: center;
+    color: black;
+    opacity: 0.6;
+  }
+
+  .impression-Container textarea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    resize: vertical;
+    overflow: hidden;
+    background-color: #8f8888;
+    box-sizing: border-box;
+    color: #000;
+    font-weight: bold;
+    width: 90%;
+    line-height: 1.5;
+    min-height: 80px;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+
   .bold {
     font-weight: bold;
   }
@@ -245,9 +286,17 @@ const EditStyle = styled.div`
     margin-right: 25px;
   }
 
+  .form-Container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   form {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
+    box-sizing: border-box;
+    font-size: 15px;
     color: #8f8888;
   }
 
