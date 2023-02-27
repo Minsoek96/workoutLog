@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Edit from "./pages/Edit";
 import { useEffect, useReducer, useRef } from "react";
 import { saveData } from "./components/utils/SaveList";
+import Attendance from "./pages/Attendance";
 
 //주간 막대 차트를 분리하기 위해
 let seconds = 0;
@@ -63,7 +64,7 @@ const App = () => {
     dispatch({ type: "INIT", data: dummyData });
   }, []);
 
-  const onCreate = (list,text) => {
+  const onCreate = (list, text) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -76,7 +77,7 @@ const App = () => {
     listId.current += 1;
   };
 
-  const onEdit = (id, list,text) => {
+  const onEdit = (id, list, text) => {
     const targetDate = data.filter((a) => a.id === id);
     dispatch({
       type: "EDIT",
@@ -97,6 +98,7 @@ const App = () => {
             path="edit"
             element={<Edit onCreate={onCreate} onEdit={onEdit} />}
           />
+          <Route path="attendance" element={<Attendance data={data}/>} />
         </Routes>
       </div>
     </BrowserRouter>

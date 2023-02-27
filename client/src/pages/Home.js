@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import DoughnutChart from "../components/chart/DoughnutChart";
 import styled from "styled-components";
 import Chart from "../components/chart/Chart";
@@ -10,10 +11,13 @@ import Header from "../components/Header";
 //.임의의 목표볼륨을 설정
 const targetVolume = 70000;
 
+
+
 const Home = ({ data }) => {
   // console.log(data)
   const [curDate, setCurDate] = useState(new Date());
   const [todayData, setTodayData] = useState([]);
+  const navigator = useNavigate();
 
   const headText = `${curDate.getMonth() + 1} 월 ${curDate.getDate()}`;
   const decrease = () => {
@@ -57,7 +61,7 @@ const Home = ({ data }) => {
   );
 
   return (
-    <div className="Home">
+    <HomeStyle>
       <Header
         leftChild={<DarkButton onClick={decrease} text={"<"}></DarkButton>}
         text={headText}
@@ -84,9 +88,18 @@ const Home = ({ data }) => {
       </Doughnut>
       <Chart data={data} curDate={curDate} />
       <WorkOutList todayData={todayData} curDate={curDate} />
-    </div>
+      <div className="button-container">
+        <DarkButton text={"출석부 보러가기"} onClick={()=>navigator('/attendance')}/>
+      </div>
+    </HomeStyle> 
   );
 };
+
+const HomeStyle = styled.div`
+  .button-container button{
+    width: 100%;
+  }
+`
 
 const Doughnut = styled.div`
   display: grid;
