@@ -34,4 +34,4 @@ const WorkOutListItemStyle = styled.div`
   }
 `;
 
-export default WorkOutListItem;
+export default React.memo(WorkOutListItem);

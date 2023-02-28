@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import BarChartItem from "./BarChartItem";
 
-const BarChart = ({ oneWeekData }) => {
+const BarChart = ({ oneWeekData,targetVolume }) => {
   const [curVolume, setCurVolume] = useState("");
-  const handlerInfo = (text) => {
+  const handlerInfo = useCallback((text) => {
     setCurVolume(text);
-  };
+  },[]);
 
   useEffect(() => {
     const isWork = new Date().getDay()
@@ -19,7 +19,7 @@ const BarChart = ({ oneWeekData }) => {
   const width = 100;
   const barWidth = 16;
   const barMargin = 13.5;
-  const barHight = 70;
+  const barHeight = 70;
   return (
     <BarChartStyle>
       {/* viewBox에 대한 상대적인값 스타일링을 할 예정 */}
@@ -36,8 +36,9 @@ const BarChart = ({ oneWeekData }) => {
               volume={a}
               xAxios={barMargin + i * (barMargin + barWidth)}
               barWidth={barWidth}
-              barHight={barHight}
+              barHeight={barHeight}
               barMargin={barMargin}
+              targetVolume={targetVolume}
               Info={handlerInfo}
               index={i}
             />

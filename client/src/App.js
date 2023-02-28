@@ -24,7 +24,7 @@ const getList = (random) =>
       workout_sets: 4,
     }));
 //임시 더미 데이터 생성
-const dummyData = Array(29)
+const dummyData = Array(30)
   .fill(0)
   .map((_, i) => ({
     id: i,
@@ -58,8 +58,8 @@ const reducer = (state, action) => {
 
 const App = () => {
   const [data, dispatch] = useReducer(reducer, []);
-  console.log("sd", { data });
   const listId = useRef(dummyData.length);
+  
   useEffect(() => {
     dispatch({ type: "INIT", data: dummyData });
   }, []);

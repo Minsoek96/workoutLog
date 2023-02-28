@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import DarkButton from "../components/DarkButton";
 import Modal from "../components/Modal";
 import LoadModal from "../components/LoadModal";
 import Header from "../components/Header";
 import { saveData } from "../components/utils/SaveList";
+import FormInput from "../components/FormInput";
 
 const Edit = ({ onCreate, onEdit }) => {
   const curTitle = useRef(" ");
@@ -18,11 +19,10 @@ const Edit = ({ onCreate, onEdit }) => {
   const [isLoad, setIsLoad] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const list = useLocation([]);
-  console.log(text);
 
   useEffect(() => {
     if (list.state.length > 0) {
-      setText(list.state[0].text)
+      setText(list.state[0].text);
       setForms(list.state[0].workout_list);
       setIsEdit(true);
     }
@@ -96,7 +96,6 @@ const Edit = ({ onCreate, onEdit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEdit) {
-      console.log("Edit" + list.state[0].id);
       onEdit(list.state[0].id, forms, text);
       navigator("/", { replace: true });
       return; // 실수로 return을 넣지 않아 onCreate까지 동시 수행하는 오류가 발생 !! return을 잊지말자
@@ -114,7 +113,6 @@ const Edit = ({ onCreate, onEdit }) => {
   };
 
   const navigator = useNavigate();
-  const { id } = useParams();
   return (
     <EditStyle>
       <div className="bold">
@@ -152,53 +150,7 @@ const Edit = ({ onCreate, onEdit }) => {
       </div>
       <form onSubmit={handleSubmit}>
         {forms.map((form, index) => (
-          <div className="form-Container" key={index}>
-            <label>
-              Title:
-              <input
-                type="text"
-                name="workout_title"
-                value={form.workout_title}
-                onChange={(e) => handleChange(e, index)}
-              />
-            </label>
-            <label>
-              Weghit:
-              <input
-                type="number"
-                name="workout_weights"
-                min={0}
-                max={600}
-                maxLength={3}
-                value={form.workout_weights}
-                onChange={(e) => handleChange(e, index)}
-              />
-            </label>
-            <label>
-              Reps:
-              <input
-                type="number"
-                name="workout_reps"
-                step={1}
-                min={0}
-                max={30}
-                value={form.workout_reps}
-                onChange={(e) => handleChange(e, index)}
-              />
-            </label>
-            <label>
-              Sets:
-              <input
-                type="number"
-                name="workout_sets"
-                step={1}
-                min={0}
-                max={20}
-                value={form.workout_sets}
-                onChange={(e) => handleChange(e, index)}
-              />
-            </label>
-          </div>
+          <FormInput key={index} handleChange={handleChange} form={form} />
         ))}
       </form>
       <div className="formButton-control">
@@ -284,12 +236,6 @@ const EditStyle = styled.div`
 
   .formButton-control button:first-child {
     margin-right: 25px;
-  }
-
-  .form-Container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   form {

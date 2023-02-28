@@ -9,10 +9,12 @@ const BarChartItem = ({
   xAxios,
   Info,
   barWidth,
-  barHight,
+  barHeight,
   barMargin = parseInt(15),
+  targetVolume,
 }) => {
   const textData = ["일", "월", "화", "수", "목", "금", "토"];
+  const curHeight = volume > targetVolume ? barHeight : getPercent(volume, targetVolume) * barHeight
   return (
     <>
       <TargetRect
@@ -20,7 +22,7 @@ const BarChartItem = ({
           Info(volume);
         }}
         width={barWidth}
-        height={70}
+        height={barHeight}
         fill="#2c313a"
         x={xAxios}
         y={barMargin}
@@ -30,12 +32,12 @@ const BarChartItem = ({
           Info(volume);
         }}
         width={barWidth}
-        height={getPercent(volume, 100000) * 100}
+        height={curHeight}
         fill="#23ada9"
         x={xAxios}
-        y={barHight + barMargin - getPercent(volume, 100000) * 100}
+        y={barHeight + barMargin - curHeight}
       />
-      <Text x={xAxios + 2} y={barHight + barMargin * 1.8}>
+      <Text x={xAxios + 2} y={barHeight + barMargin * 1.8}>
         {textData[index]}
       </Text>
     </>
@@ -67,4 +69,4 @@ const Text = styled.text`
 `;
 
 
-export default BarChartItem;
+export default React.memo(BarChartItem);

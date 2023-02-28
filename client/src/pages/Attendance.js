@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import DarkButton from "../components/DarkButton";
+import { useNavigate } from "react-router-dom";
+import { getfilterData } from "../components/utils/ChartUtils";
 
 const Attendance = ({ data }) => {
   const [curDate, setCurDate] = useState(new Date());
   const [startDate, setStartDate] = useState(0);
   const [monthData, setMonthData] = useState([]);
+  const navigator = useNavigate();
   useEffect(() => {
     const firstDay = new Date(curDate.getFullYear(), curDate.getMonth(), 1);
     const lastDay = new Date(
@@ -21,23 +24,20 @@ const Attendance = ({ data }) => {
       (a) => firstDay <= a.timestamp && a.timestamp <= lastDay
     );
     setStartDate(firstDay.getDay());
-    const flfl = firstDay.getDay();
 
+    const startingPoint = firstDay.getDay();
     const index = lastDay.getDate();
-    const dateSearch = filterData.map((a) => new Date(a.timestamp).getDate());
-    const newArr = [];
-    for (let i = 0; i <= index; i++) {
-      newArr[dateSearch[i]] = filterData[i];
-      if (!newArr[i]) {
-        newArr[i] = parseInt(0);
-      }
-    }
-    newArr.shift();
-    const plus = Array(flfl === 0 ? 0 : parseInt(flfl)).fill(0);
-    setMonthData(flfl !== 0 ? [...plus, ...newArr] : [...newArr]);
+    const temporaryArr = getfilterData(index, filterData, "date");
+    temporaryArr.shift();
+    const plus = Array(parseInt(startingPoint)).fill(0);
+    setMonthData(
+      startingPoint !== 0 ? [...plus, ...temporaryArr] : [...temporaryArr]
+    );
   }, [curDate, data]);
 
-  const headText = `${curDate.getMonth() + 1} 월 출석부`;
+  const headText = `${curDate.getFullYear()}년 ${
+    curDate.getMonth() + 1
+  } 월 출석부`;
   const decrease = () => {
     setCurDate(new Date(curDate.getFullYear(), curDate.getMonth() - 1));
   };
@@ -46,7 +46,6 @@ const Attendance = ({ data }) => {
   };
 
   const day = ["Sun", "Mon", "Tue", "Wed", "Thu", "FRI", "Sat"];
-
   return (
     <AttendanceStyle>
       <Header
@@ -62,11 +61,30 @@ const Attendance = ({ data }) => {
       <AttendanceCell>
         {monthData &&
           monthData.map((a, i) => (
-            <div key={i} className={["date-container",a !== 0 ? "active" : ""].join(" ")}>
-              {i < startDate ? "" : <div>{i - startDate + 1}{a !== 0 ?<p> 👍</p>:<></>}</div>}
+            <div
+              key={i}
+              className={["date-container", a !== 0 ? "active" : ""].join(" ")}
+            >
+              {i < startDate ? (
+                ""
+              ) : (
+                <div>
+                  {i - startDate + 1}
+                  {a !== 0 ? (
+                    <p>
+                      {new Date(a.timestamp).toString().slice(16, 24)}
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              )}
             </div>
           ))}
       </AttendanceCell>
+      <div className="back-container">
+        <DarkButton text="뒤로가기" onClick={() => navigator(-1)}></DarkButton>
+      </div>
     </AttendanceStyle>
   );
 };
@@ -74,6 +92,13 @@ const Attendance = ({ data }) => {
 const AttendanceStyle = styled.div`
   color: white;
   padding: 20px 10px;
+  .back-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .back-container button {
+    opacity: 0.5;
+  }
 `;
 
 const AttendanceDay = styled.div`

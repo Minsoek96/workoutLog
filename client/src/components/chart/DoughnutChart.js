@@ -9,7 +9,7 @@ const DoughnutChart = ({
   color = "blue",
 }) => {
   return (
-    <Doughnut>
+    <DoughnutStyle>
       <DoughnutSVG viewBox="0 0 300 300">
         <circle
           size={size}
@@ -36,16 +36,21 @@ const DoughnutChart = ({
         />
       </DoughnutSVG>
       <DoughuntINFO>
-        <div>{percent}%</div>
+        <div>
+          {parseInt(percent * 100) > 100
+            ? parseInt(100)
+            : parseInt(percent * 100)}
+          %
+        </div>
         <div>{text}</div>
       </DoughuntINFO>
-    </Doughnut>
+    </DoughnutStyle>
   );
 };
 
-export default DoughnutChart;
+export default React.memo(DoughnutChart);
 
-const Doughnut = styled.div`
+const DoughnutStyle = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
@@ -60,7 +65,6 @@ const DoughuntINFO = styled.div`
   position: absolute;
   font-size: 20px;
 `;
-
 
 const DoughnutSVG = styled.svg``;
 

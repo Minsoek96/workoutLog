@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import styled from "styled-components";
+import { getfilterData } from "../utils/ChartUtils";
 import BarChart from "./BarChart";
 
-const Chart = ({ data, curDate }) => {
+const Chart = ({ data, curDate, targetVolume }) => {
   const [volumeData, setVolumeData] = useState();
   useEffect(() => {
-    console.log("차트 렌더링")
+    console.log("차트 렌더링");
     //현시점으로 부터 이전 일요일까지 일수를 계산하고 필터링한다.
     //주간 데이터를 분리하기 위한
     const sundaySearch = new Date(curDate).getDay();
@@ -17,23 +18,14 @@ const Chart = ({ data, curDate }) => {
     const lastDay = new Date(
       firstDay.getFullYear(),
       firstDay.getMonth(),
-      firstDay.getDate() + 7,
+      firstDay.getDate() + 7
     );
     const filterData = data.filter(
       (a) => firstDay <= a.timestamp && a.timestamp <= lastDay
     );
     //SVG를 렌더링 하기위해 남은 일주일 데이터를 채워주는 작업
     //사전 작업시에는 데이터시간을 오늘을 기준으로 하루씩 차감 하여 50개의 데이터를 생성하여 day를 역순으로 생각하고 코드를짬..
-    const daySearch = filterData.map(a => new Date(a.timestamp).getDay())
-
-    const oneWeekData = [];
-    for (let i = 0; i <= 6; i++) {
-      oneWeekData[daySearch[i]] = filterData[i];
-      if (!oneWeekData[i]) {
-        oneWeekData[i] = parseInt(0);
-      }
-    }
-
+    const oneWeekData = getfilterData(6, filterData);
     setVolumeData(
       oneWeekData.map((a) =>
         a === 0
@@ -43,11 +35,11 @@ const Chart = ({ data, curDate }) => {
               .reduce((pre, cur) => pre + cur, 0)
       )
     );
-  }, [curDate,data]);
+  }, [curDate, data]);
 
   return (
     <ChartStyle>
-      <BarChart oneWeekData={volumeData}></BarChart>
+      <BarChart oneWeekData={volumeData} targetVolume={targetVolume}></BarChart>
     </ChartStyle>
   );
 };
@@ -62,4 +54,3 @@ const ChartStyle = styled.div`
   background-color: #181818;
   box-shadow: 0 5px 21px rgba(0, 0, 0, 08);
 `;
-

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Review = ({ todayData, curDate }) => {
+const Review = ({ todayData}) => {
   const [text, setText] = useState("");
   useEffect(() => {
     setText("")
     if (todayData && todayData.length > 0) {
       setText(todayData[0].text);
     }
-  }, [todayData, curDate]);
+  }, [todayData]);
   return (
     <ReviewStyle>
       <ReviewBox>
@@ -44,4 +44,4 @@ const ReviewTitle = styled.div`
     color: #9b8f8f;
 `;
 
-export default Review;
+export default React.memo(Review);
