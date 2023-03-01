@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const FormInput = ({ handleChange, form, key }) => {
+const FormInput = ({ handleChange, form, index }) => {
   return (
     <FormInputStyle>
       <label>
@@ -10,7 +10,7 @@ const FormInput = ({ handleChange, form, key }) => {
           type="text"
           name="workout_title"
           value={form.workout_title}
-          onChange={(e) => handleChange(e, key)}
+          onChange={(e) => handleChange(e, index)}
         />
       </label>
       <label>
@@ -22,7 +22,7 @@ const FormInput = ({ handleChange, form, key }) => {
           max={600}
           maxLength={3}
           value={form.workout_weights}
-          onChange={(e) => handleChange(e, key)}
+          onChange={(e) => handleChange(e, index)}
         />
       </label>
       <label>
@@ -34,7 +34,7 @@ const FormInput = ({ handleChange, form, key }) => {
           min={0}
           max={30}
           value={form.workout_reps}
-          onChange={(e) => handleChange(e, key)}
+          onChange={(e) => handleChange(e, index)}
         />
       </label>
       <label>
@@ -46,7 +46,7 @@ const FormInput = ({ handleChange, form, key }) => {
           min={0}
           max={20}
           value={form.workout_sets}
-          onChange={(e) => handleChange(e, key)}
+          onChange={(e) => handleChange(e, index)}
         />
       </label>
     </FormInputStyle>
@@ -59,4 +59,4 @@ const FormInputStyle = styled.div`
   align-items: center;
 `;
 
-export default FormInput;
+export default React.memo(FormInput);

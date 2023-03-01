@@ -37,9 +37,7 @@ const DoughnutChart = ({
       </DoughnutSVG>
       <DoughuntINFO>
         <div>
-          {parseInt(percent * 100) > 100
-            ? parseInt(100)
-            : parseInt(percent * 100)}
+          {parseInt(percent * 100)}
           %
         </div>
         <div>{text}</div>
@@ -47,8 +45,6 @@ const DoughnutChart = ({
     </DoughnutStyle>
   );
 };
-
-export default React.memo(DoughnutChart);
 
 const DoughnutStyle = styled.div`
   display: flex;
@@ -58,7 +54,6 @@ const DoughnutStyle = styled.div`
   color: white;
   border-radius: 25px;
   box-shadow: 0 5px 21px rgba(0, 0, 0, 08);
-  font-family: var(--font--Roboto);
 `;
 
 const DoughuntINFO = styled.div`
@@ -77,3 +72,5 @@ const circleAni = (size) => keyframes`
 const Circle = styled.circle`
   animation: ${(props) => circleAni(props.size)} 3s ease;
 `;
+
+export default React.memo(DoughnutChart);

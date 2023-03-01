@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Edit from "./pages/Edit";
 import { useEffect, useReducer, useRef } from "react";
-import { saveData } from "./components/utils/SaveList";
 import Attendance from "./pages/Attendance";
 
 //주간 막대 차트를 분리하기 위해
@@ -31,6 +30,7 @@ const dummyData = Array(30)
     timestamp: new Date(1674835165111).getTime() + getOneMoreDay(), //jan 24 2023기준
     text: "오늘도 해냈다.",
     workout_list: getList(Math.round(Math.random() * (15 - 5)) + 5),
+    emotion: 1,
   }));
 // dummyData.map((a) => console.log(new Date(a.timestamp)));
 
@@ -58,19 +58,21 @@ const reducer = (state, action) => {
 
 const App = () => {
   const [data, dispatch] = useReducer(reducer, []);
+  console.log(data)
   const listId = useRef(dummyData.length);
-  
+  console.log("앱 렌더링")
   useEffect(() => {
     dispatch({ type: "INIT", data: dummyData });
   }, []);
 
-  const onCreate = (list, text) => {
+  const onCreate = (list, text, emotion) => {
     dispatch({
       type: "CREATE",
       data: {
         id: listId.current,
         timestamp: new Date().getTime(),
         text,
+        emotion,
         workout_list: list,
       },
     });

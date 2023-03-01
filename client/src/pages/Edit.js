@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import DarkButton from "../components/DarkButton";
@@ -7,6 +7,8 @@ import LoadModal from "../components/LoadModal";
 import Header from "../components/Header";
 import { saveData } from "../components/utils/SaveList";
 import FormInput from "../components/FormInput";
+import EmotionItem from "../components/EmotionItem";
+import { emotionList } from "../components/utils/EmotionUtil";
 
 const Edit = ({ onCreate, onEdit }) => {
   const curTitle = useRef(" ");
@@ -18,12 +20,17 @@ const Edit = ({ onCreate, onEdit }) => {
   const [modalData, setModalData] = useState({});
   const [isLoad, setIsLoad] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [curEmotion, setCurEmotion] = useState(0);
+  const handleEmotion = useCallback((index) => {
+    setCurEmotion(index);
+  }, []);
   const list = useLocation([]);
 
   useEffect(() => {
     if (list.state.length > 0) {
       setText(list.state[0].text);
       setForms(list.state[0].workout_list);
+      setCurEmotion(list.state[0].emotion);
       setIsEdit(true);
     }
   }, [list]);
@@ -81,7 +88,7 @@ const Edit = ({ onCreate, onEdit }) => {
     }
   };
 
-  const handleChange = (e, index) => {
+  const handleChange = useCallback((e, index) => {
     const { name, value } = e.target;
     const newForms = [...forms];
     if (e.target.name === "workout_title") {
@@ -91,7 +98,7 @@ const Edit = ({ onCreate, onEdit }) => {
       newForms[index][name] = parseInt(value);
     }
     setForms(newForms);
-  };
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,7 +108,7 @@ const Edit = ({ onCreate, onEdit }) => {
       return; // 실수로 return을 넣지 않아 onCreate까지 동시 수행하는 오류가 발생 !! return을 잊지말자
     }
     if (forms.length > 1) {
-      onCreate(forms, text);
+      onCreate(forms, text, curEmotion);
       navigator("/", { replace: true });
     } else {
       setModalOpen(true);
@@ -140,8 +147,22 @@ const Edit = ({ onCreate, onEdit }) => {
           onClick={handleSubmit}
         ></DarkButton>
       </div>
+      <EmotionStyle>
+        <h2> 오늘의 컨디션</h2>
+        <div className="emotionList-container">
+          {emotionList.map((a, index) => (
+            <EmotionItem
+              key={index}
+              index={index}
+              isSelected={parseInt(curEmotion) === parseInt(index)}
+              handleEmotion={handleEmotion}
+              {...a}
+            />
+          ))}
+        </div>
+      </EmotionStyle>
       <div className="impression-Container">
-        <h3>오늘의 소감</h3>
+        <h2>오늘의 소감</h2>
         <textarea
           placeholder="필수는 아닙니다..."
           value={text}
@@ -150,7 +171,12 @@ const Edit = ({ onCreate, onEdit }) => {
       </div>
       <form onSubmit={handleSubmit}>
         {forms.map((form, index) => (
-          <FormInput key={index} handleChange={handleChange} form={form} />
+          <FormInput
+            key={index}
+            index={index}
+            handleChange={handleChange}
+            form={form}
+          />
         ))}
       </form>
       <div className="formButton-control">
@@ -252,6 +278,15 @@ const EditStyle = styled.div`
     border-radius: 5px;
     color: #d8caca;
     background-color: #534e4e;
+  }
+`;
+
+const EmotionStyle = styled.div`
+  text-align: center;
+  .emotionList-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
   }
 `;
 

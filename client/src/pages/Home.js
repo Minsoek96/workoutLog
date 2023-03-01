@@ -7,6 +7,7 @@ import { getPercent } from "../components/utils/ChartUtils";
 import WorkOutList from "../components/WorkOutList";
 import DarkButton from "../components/DarkButton";
 import Header from "../components/Header";
+import Emotion from "../components/Emotion";
 
 //.임의의 목표볼륨을 설정
 const targetVolume = 20000;
@@ -77,14 +78,9 @@ const Home = ({ data }) => {
           text={"이전강도"}
           color={"red"}
         />
-        <DoughnutChart
-          size={"100"}
-          percent={getPercent(getvolume, targetVolume)}
-          text={"감정지수"}
-          color={"orange"}
-        />
+        <Emotion selectedEmotion={todayData[0] && todayData[0].emotion} />
       </Doughnut>
-      <Chart data={data} curDate={curDate} targetVolume={targetVolume}/>
+      <Chart data={data} curDate={curDate} targetVolume={targetVolume} />
       <WorkOutList todayData={todayData} curDate={curDate} />
       <div className="button-container">
         <DarkButton
@@ -105,11 +101,11 @@ const HomeStyle = styled.div`
 
 const Doughnut = styled.div`
   display: grid;
-  grid-gap: 20px;
+  grid-gap: 15px;
   grid-template-columns: repeat(3, 1fr);
   height: 200px;
   width: 100%;
-  padding: 20px 2px;
+  margin: 22px auto;
 `;
 
 export default Home;

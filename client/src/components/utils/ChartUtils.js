@@ -1,4 +1,7 @@
 export const getPercent = (getVolume, targetVolume) => {
+  if(getVolume > targetVolume) {
+    return 1;
+  }
   return (getVolume / targetVolume).toFixed(2);
 };
 

@@ -7,7 +7,7 @@ const BarChartItem = ({
   index,
   volume,
   xAxios,
-  Info,
+  handlerInfo,
   barWidth,
   barHeight,
   barMargin = parseInt(15),
@@ -19,7 +19,7 @@ const BarChartItem = ({
     <>
       <TargetRect
         onClick={() => {
-          Info(volume);
+          handlerInfo(volume);
         }}
         width={barWidth}
         height={barHeight}
@@ -29,7 +29,7 @@ const BarChartItem = ({
       />
       <Rect
         onClick={() => {
-          Info(volume);
+          handlerInfo(volume);
         }}
         width={barWidth}
         height={curHeight}
