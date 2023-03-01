@@ -98,12 +98,12 @@ const Edit = ({ onCreate, onEdit }) => {
       newForms[index][name] = parseInt(value);
     }
     setForms(newForms);
-  }, []);
+  }, [forms.length]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEdit) {
-      onEdit(list.state[0].id, forms, text);
+      onEdit(list.state[0].id, forms, text, curEmotion);
       navigator("/", { replace: true });
       return; // 실수로 return을 넣지 않아 onCreate까지 동시 수행하는 오류가 발생 !! return을 잊지말자
     }
@@ -175,7 +175,7 @@ const Edit = ({ onCreate, onEdit }) => {
             key={index}
             index={index}
             handleChange={handleChange}
-            form={form}
+            {...form}
           />
         ))}
       </form>

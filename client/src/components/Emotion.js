@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { emotionList } from "./utils/EmotionUtil";
-const Emotion = ({ selectedEmotion}) => {
+const Emotion = ({ selectedEmotion = 44 }) => {
+  console.log(selectedEmotion);
   return (
     <EmotionStyle>
-      {selectedEmotion ? emotionList[selectedEmotion].emotion_style : "GTTFG"}
+      {selectedEmotion !== 44
+        ? emotionList[selectedEmotion].emotion_style
+        : "GTTFG"}
     </EmotionStyle>
   );
 };
@@ -22,7 +25,7 @@ const EmotionStyle = styled.div`
   color: red;
   svg {
     font-size: 150px;
-    color: green;
+    color: #b40f0f;
   }
 `;
 export default React.memo(Emotion);

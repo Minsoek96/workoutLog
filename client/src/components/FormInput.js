@@ -1,7 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const FormInput = ({ handleChange, form, index }) => {
+const FormInput = ({
+  handleChange,
+  workout_title,
+  workout_weights,
+  workout_reps,
+  workout_sets,
+  index,
+}) => {
   return (
     <FormInputStyle>
       <label>
@@ -9,7 +16,7 @@ const FormInput = ({ handleChange, form, index }) => {
         <input
           type="text"
           name="workout_title"
-          value={form.workout_title}
+          value={workout_title}
           onChange={(e) => handleChange(e, index)}
         />
       </label>
@@ -21,7 +28,7 @@ const FormInput = ({ handleChange, form, index }) => {
           min={0}
           max={600}
           maxLength={3}
-          value={form.workout_weights}
+          value={workout_weights}
           onChange={(e) => handleChange(e, index)}
         />
       </label>
@@ -33,7 +40,7 @@ const FormInput = ({ handleChange, form, index }) => {
           step={1}
           min={0}
           max={30}
-          value={form.workout_reps}
+          value={workout_reps}
           onChange={(e) => handleChange(e, index)}
         />
       </label>
@@ -45,7 +52,7 @@ const FormInput = ({ handleChange, form, index }) => {
           step={1}
           min={0}
           max={20}
-          value={form.workout_sets}
+          value={workout_sets}
           onChange={(e) => handleChange(e, index)}
         />
       </label>

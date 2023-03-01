@@ -5,34 +5,34 @@ import Edit from "./pages/Edit";
 import { useEffect, useReducer, useRef } from "react";
 import Attendance from "./pages/Attendance";
 
-//주간 막대 차트를 분리하기 위해
-let seconds = 0;
-const getOneMoreDay = () => {
-  seconds += 86400000;
-  return seconds;
-};
+// //주간 막대 차트를 분리하기 위해
+// let seconds = 0;
+// const getOneMoreDay = () => {
+//   seconds += 86400000;
+//   return seconds;
+// };
 
-//유저가 몇 개를 추가할지 모를 종목 개수를 임의로 생성하는 목적
-const getList = (random) =>
-  Array(random)
-    .fill(0)
-    .map((_, i) => ({
-      workout_title: "bench",
-      workout_weights: 40 * (i + 1) >= 120 ? 120 : 40 * (i + 1),
-      workout_reps: 10,
-      workout_sets: 4,
-    }));
-//임시 더미 데이터 생성
-const dummyData = Array(30)
-  .fill(0)
-  .map((_, i) => ({
-    id: i,
-    timestamp: new Date(1674835165111).getTime() + getOneMoreDay(), //jan 24 2023기준
-    text: "오늘도 해냈다.",
-    workout_list: getList(Math.round(Math.random() * (15 - 5)) + 5),
-    emotion: 1,
-  }));
-// dummyData.map((a) => console.log(new Date(a.timestamp)));
+// //유저가 몇 개를 추가할지 모를 종목 개수를 임의로 생성하는 목적
+// const getList = (random) =>
+//   Array(random)
+//     .fill(0)
+//     .map((_, i) => ({
+//       workout_title: "bench",
+//       workout_weights: 40 * (i + 1) >= 120 ? 120 : 40 * (i + 1),
+//       workout_reps: 10,
+//       workout_sets: 4,
+//     }));
+// //임시 더미 데이터 생성
+// const dummyData = Array(30)
+//   .fill(0)
+//   .map((_, i) => ({
+//     id: i,
+//     timestamp: new Date(1674835165111).getTime() + getOneMoreDay(), //jan 24 2023기준
+//     text: "오늘도 해냈다.",
+//     workout_list: getList(Math.round(Math.random() * (15 - 5)) + 5),
+//     emotion: 1,
+//   }));
+// // dummyData.map((a) => console.log(new Date(a.timestamp)));
 
 const reducer = (state, action) => {
   let newState = [];
@@ -53,16 +53,22 @@ const reducer = (state, action) => {
     default:
       return state;
   }
+  localStorage.setItem('workOutList',JSON.stringify(newState))
   return newState;
 };
 
 const App = () => {
   const [data, dispatch] = useReducer(reducer, []);
   console.log(data)
-  const listId = useRef(dummyData.length);
-  console.log("앱 렌더링")
+  // const listId = useRef(dummyData.length);
+  const listId = useRef(0);
   useEffect(() => {
-    dispatch({ type: "INIT", data: dummyData });
+    const storageData = localStorage.getItem("workOutList");
+    if (storageData) {
+      const workOutList = JSON.parse(storageData)
+      listId.current = parseInt(workOutList[0].id) + 1;
+      dispatch({ type: "INIT", data: workOutList });
+    }
   }, []);
 
   const onCreate = (list, text, emotion) => {
@@ -79,7 +85,7 @@ const App = () => {
     listId.current += 1;
   };
 
-  const onEdit = (id, list, text) => {
+  const onEdit = (id, list, text, emotion) => {
     const targetDate = data.filter((a) => a.id === id);
     dispatch({
       type: "EDIT",
@@ -87,6 +93,7 @@ const App = () => {
         id,
         timestamp: targetDate[0].timestamp,
         text,
+        emotion,
         workout_list: list,
       },
     });

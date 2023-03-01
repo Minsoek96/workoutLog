@@ -76,7 +76,7 @@ const Home = ({ data }) => {
           size={"100"}
           percent={getPercent(getvolume, targetVolume)}
           text={"이전강도"}
-          color={"red"}
+          color={"green"}
         />
         <Emotion selectedEmotion={todayData[0] && todayData[0].emotion} />
       </Doughnut>
