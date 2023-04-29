@@ -7,11 +7,11 @@ import NoneData from "./NoneData";
 import DarkButton from "./DarkButton";
 import Modal from "./Modal";
 
-
 const WorkOutList = ({ todayData, curDate }) => {
   const navigator = useNavigate();
   const [filterList, setFilterList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [warningMsg, setWarningMsg] = useState("");
 
   const closeModal = () => {
     setModalOpen(false);
@@ -20,8 +20,19 @@ const WorkOutList = ({ todayData, curDate }) => {
   const handleList = () => {
     const target = parseInt(new Date().getDate());
     const curday = parseInt(new Date(curDate).getDate());
+    console.log(target < curday);
+    if (target < curday) {
+      setWarningMsg("나는 오늘만 산다는 마음가짐으로.");
+      setTimeout(() => {
+        setModalOpen(true);
+      }, 50);
+      return;
+    }
     if (target > curday) {
-      setModalOpen(true);
+      setWarningMsg("지나간 시간은 돌아오지않는다.");
+      setTimeout(() => {
+        setModalOpen(true);
+      }, 50);
       return;
     }
     navigator("/Edit", { state: todayData });
@@ -39,7 +50,7 @@ const WorkOutList = ({ todayData, curDate }) => {
           onClose={closeModal}
           contents={{
             title: "TIP.",
-            content: "지나간 시간은 돌아오지 않습니다.!",
+            content: warningMsg,
           }}
         />
       ) : (
@@ -54,7 +65,7 @@ const WorkOutList = ({ todayData, curDate }) => {
           <DarkButton text={"수정하기"} onClick={handleList} />
         </>
       ) : (
-        <NoneData handleList={handleList}/>
+        <NoneData handleList={handleList} />
       )}
     </WorkOutListStyle>
   );

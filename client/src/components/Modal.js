@@ -61,7 +61,8 @@ const ModalBox = styled.div`
   }
   .modal-Buttons {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     margin-right: 15px;
   }
 `;
